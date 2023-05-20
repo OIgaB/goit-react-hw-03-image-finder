@@ -34,7 +34,7 @@ export class Modal extends Component {
         return createPortal(
             <StyledOverlay onClick={this.handleBackdropClick}>
                 <StyledModal>
-                    <img src={largeImageURL} alt={query} />
+                    <img src={largeImageURL} alt={query} width='900'/>
                 </StyledModal>
             </StyledOverlay>,
             modalRoot,
