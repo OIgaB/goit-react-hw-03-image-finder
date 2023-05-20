@@ -27,7 +27,7 @@ export class ImageGalleryItem extends Component {
         return (
             <>
                 <StyledImageGalleryItem onClick={handleImgClick}>
-                    <Image src={webformatURL} alt={query} />
+                    <Image src={webformatURL} alt={query} loading="lazy" />
                 </StyledImageGalleryItem>
                 {this.state.showModal && <Modal largeImageURL={largeImageURL} query={query} onClose={toggleModal} />}
             </>

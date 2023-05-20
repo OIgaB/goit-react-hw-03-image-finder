@@ -20,7 +20,14 @@ export class ImageGallery extends Component {
         noMatch: false,
     }
 
-    async componentDidUpdate(prevProps, prevState) {     // приходить query
+
+    getSnapshotBeforeUpdate() {
+        return {
+            scrollY: window.scrollY,
+        };
+    }
+
+    async componentDidUpdate(prevProps, prevState, snapshot) {     // приходить query
         try {
             if(prevProps.query !== this.props.query) {
                 this.setState({ images: [] });
@@ -29,6 +36,13 @@ export class ImageGallery extends Component {
 
             if(prevState.pageNumber !== this.state.pageNumber ) {
                 await this.getImages(this.props.query, this.state.pageNumber); // виклик ф-ції
+
+                setTimeout(() => {
+                    window.scrollBy({
+                        top: snapshot.scrollY,
+                        behavior: 'smooth',
+                    });
+                }, 150);
             }
         } catch(error) {
             this.setState({ error: error.message }); 
