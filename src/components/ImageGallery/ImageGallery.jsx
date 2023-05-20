@@ -1,15 +1,16 @@
 //Список карток зображень
+
 import { Component } from "react";                     // для класів
 import { ImageGalleryItem } from "./ImageGalleryItem/ImageGalleryItem"; 
 import { Loader } from '../Loader/Loader';
 import { Button } from './Button/Button';
-// import PropTypes from 'prop-types';
 import { StyledGallery, StyledImage, Notification } from "./styled";
+import PropTypes from 'prop-types';
 import placeholderImg from './placeholder-image.png';
 import api from '../services/pixabay-api';
 
 
-export class ImageGallery extends Component {       // для класів
+export class ImageGallery extends Component {      
 
     state = {
         images: [],
@@ -19,14 +20,20 @@ export class ImageGallery extends Component {       // для класів
         noMatch: false,
     }
 
-    componentDidUpdate(prevProps, prevState) {     // приходить query
-        // console.log("I am a prevProps:", prevProps);
-        // console.log("I am a this.props:", this.props);
+    async componentDidUpdate(prevProps, prevState) {     // приходить query
+        try {
+            if(prevProps.query !== this.props.query) {
+                this.setState({ images: [] });
+                await this.getImages(this.props.query, this.state.pageNumber); // виклик ф-ції
+            }
 
-        if(prevProps.query !== this.props.query) {
-            this.setState({ images: [], pageNumber: 1 });
-            this.getImages(this.props.query, this.state.pageNumber); // виклик ф-ції
+            if(prevState.pageNumber !== this.state.pageNumber ) {
+                await this.getImages(this.props.query, this.state.pageNumber); // виклик ф-ції
+            }
+        } catch(error) {
+            this.setState({ error: error.message }); 
         }
+
     }
 
     getImages = async (query, pageNumber) => {
@@ -42,39 +49,32 @@ export class ImageGallery extends Component {       // для класів
                 images: [...prevState.images, ...data.hits],
                 noMatch: false
             }));
-            //   this.setState(prevState => ({
-            //     page: prevState.page,
-            //     total: responseImages.total,
-            //   }));
-
         } catch(error) {
-           this.setState({ error: error.message }); // shorthand
+           this.setState({ error: error.message }); 
         } finally {
             this.setState({ isLoading: false }); 
         }
     }
 
     handleBtnClick = () => {
-        this.setState((prevState) => {
-            prevState.pageNumber += 1
-            console.log(this.state.pageNumber);
-        })   
+        this.setState((prevState) => ({
+            pageNumber: prevState.pageNumber + 1
+        }));   
     } 
 
-    render() {
-        // const { handleFormSubmit, handleChange } = this;
-        const { images } = this.state;
-        
 
-        if(this.state.isLoading) {
+    render() {
+        const { isLoading, noMatch, images } = this.state;
+        
+        if(isLoading) {
             return <Loader />
         }
 
-        if(this.state.noMatch) {
+        if(noMatch) {
              return (
                 <>
                     <StyledImage src={placeholderImg} alt='man on the moon' />
-                    <Notification>No images found in our Universe corresponding your request. Try searching for another term.</Notification>
+                    <Notification>No images corresponding your request found in our Universe. Try searching for another term.</Notification>
                 </>
              )
         }
@@ -82,13 +82,18 @@ export class ImageGallery extends Component {       // для класів
         return (
             <>
                 <StyledGallery>
-                    {this.state.images.length !== 0 &&  
+                    {images.length !== 0 &&  
                         images.map(({ id, webformatURL, largeImageURL }) => (
-                        <ImageGalleryItem key={id} webformatURL={webformatURL} largeImageURL={largeImageURL} query={this.props.query} />       // <li> 
+                        <ImageGalleryItem key={id} webformatURL={webformatURL} largeImageURL={largeImageURL} query={this.props.query} />     // <li> 
                     ))}
                 </StyledGallery>
-                {this.state.images.length !== 0 && <Button onClick={this.handleBtnClick}/> } 
+
+                {images.length !== 0 && <Button onClick={this.handleBtnClick}/> } 
             </>
         );            
     }
 }
+
+ImageGallery.propTypes = {
+    query: PropTypes.string.isRequired,
+};

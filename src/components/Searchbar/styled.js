@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { GoSearch } from 'react-icons/go';
 
 export const StyledHeader = styled.header`
     top: 0;
@@ -47,6 +48,11 @@ export const StyledButton = styled.button`
     }
 `; 
 
+export const SearchIcon = styled(GoSearch)`
+  width: 28px;
+  height: 28px;
+`;
+
 export const StyledBtnLabel = styled.span`
     position: absolute;
     width: 1px;
@@ -63,7 +69,7 @@ export const StyledInput = styled.input`
     display: inline-block;
     width: 100%;
     font: inherit;
-    font-size: 20px;
+    font-size: 17px;
     border: none;
     outline: none;
     padding-left: 4px;

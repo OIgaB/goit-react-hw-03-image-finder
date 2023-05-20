@@ -1,29 +1,41 @@
 //Компонент елемента списку із зображенням
 
 import { Component } from "react";                     // для класів
-// import PropTypes from 'prop-types';
+import { Modal } from './Modal/Modal';
+import PropTypes from 'prop-types';
 import { StyledImageGalleryItem, Image } from "./styled";
 
 
-export class ImageGalleryItem extends Component {       // для класів
+export class ImageGalleryItem extends Component {      
+    state = {
+        showModal: false,
+    }
 
-    handleImgClick = (event) => {
-        console.log(event.currentTarget);
-        // запуск модалки
+    toggleModal = () => {
+        this.setState(({ showModal }) => ({ 
+            showModal: !showModal, 
+        }));
+    }
+
+    handleImgClick = () => {
+        this.toggleModal();  // запуск модалки
     }
 
     render() {
-        // const { handleFormSubmit, handleChange } = this;
-        // const { name, number } = this.state;
+        const { handleImgClick, toggleModal } = this;
+        const { webformatURL, largeImageURL, query } = this.props;
         return (
-            <StyledImageGalleryItem onClick={this.handleImgClick}>
-                <Image src={this.props.webformatURL} alt={this.props.query} />
-            </StyledImageGalleryItem>
+            <>
+                <StyledImageGalleryItem onClick={handleImgClick}>
+                    <Image src={webformatURL} alt={query} />
+                </StyledImageGalleryItem>
+                {this.state.showModal && <Modal largeImageURL={largeImageURL} query={query} onClose={toggleModal} />}
+            </>
         );
     }
 }
 
-// this.props.largeImageURL
-
-// webformatURL - посилання на маленьке зображення для списку карток
-// largeImageURL - посилання на велике зображення для модального вікна
+ImageGalleryItem.propTypes = {
+    webformatURL: PropTypes.string.isRequired,
+    query: PropTypes.string.isRequired,
+};

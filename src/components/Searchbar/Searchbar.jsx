@@ -1,7 +1,7 @@
-import { Component } from "react";                     // для класів
+import { Component } from "react";  // для класів
+import { Report } from 'notiflix/build/notiflix-report-aio';                   
 import PropTypes from 'prop-types';
-// import { toast } from 'react-toastify'; //ToastContainer,
-import { StyledHeader, StyledForm, StyledButton, StyledBtnLabel, StyledInput } from "./styled";
+import { StyledHeader, StyledForm, StyledButton, SearchIcon, StyledBtnLabel, StyledInput } from "./styled";
 
 
 export class Searchbar extends Component {       // для класів
@@ -17,10 +17,10 @@ export class Searchbar extends Component {       // для класів
     handleFormSubmit = (event) => {
         event.preventDefault();
 
-        // if(this.state.query.trim() === '') {
-        //     toast.error('Введіть назву картинки.');
-        //     return;
-        // }
+        if(this.state.query.trim() === '') {
+            Report.failure('Enter your request.');
+            return;
+        }
 
         this.props.onSubmit(this.state.query);  //дані передаються в App
         this.setState({ query: '' });  
@@ -31,7 +31,9 @@ export class Searchbar extends Component {       // для класів
         return (
             <StyledHeader>
                 <StyledForm onSubmit={handleFormSubmit}>
+
                     <StyledButton type="submit">
+                        <SearchIcon />
                         <StyledBtnLabel>Search</StyledBtnLabel>
                     </StyledButton>
 
@@ -44,7 +46,6 @@ export class Searchbar extends Component {       // для класів
                         onChange={handleChange}
                     />
                 </StyledForm>
-                {/* <ToastContainer /> */}
             </StyledHeader>
         );
     }
