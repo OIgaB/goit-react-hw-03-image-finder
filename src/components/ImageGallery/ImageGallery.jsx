@@ -6,6 +6,7 @@ import { Loader } from '../Loader/Loader';
 import { Button } from './Button/Button';
 import { StyledGallery, StyledImage, Notification } from "./styled";
 import PropTypes from 'prop-types';
+import { Notify } from 'notiflix/build/notiflix-notify-aio';
 import placeholderImg from './placeholder-image.png';
 import api from '../services/pixabay-api';
 
@@ -18,6 +19,7 @@ export class ImageGallery extends Component {
         isLoading: false,
         error: null,
         noMatch: false,
+        end: false, 
     }
 
 
@@ -61,8 +63,15 @@ export class ImageGallery extends Component {
 
             this.setState(prevState => ({ 
                 images: [...prevState.images, ...data.hits],
-                noMatch: false
+                noMatch: false,
+                end: false,
             }));
+
+            if(pageNumber >= Math.ceil(data.totalHits / 12)) {
+                Notify.warning("You've reached the end of search results."); 
+                this.setState({ end: true });
+            }
+
         } catch(error) {
            this.setState({ error: error.message }); 
         } finally {
@@ -102,7 +111,7 @@ export class ImageGallery extends Component {
                     ))}
                 </StyledGallery>
 
-                {images.length !== 0 && <Button onClick={this.handleBtnClick}/> } 
+                {(images.length !== 0 && !this.state.end) && <Button onClick={this.handleBtnClick}/> } 
             </>
         );            
     }

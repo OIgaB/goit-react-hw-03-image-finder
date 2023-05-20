@@ -1,6 +1,8 @@
 import styled from 'styled-components';
 
 export const StyledButton = styled.button`
+    margin-right: auto;
+    margin-left: auto;
     padding: 8px 16px;
     border-radius: 2px;
     background-color: #3f51b5;
@@ -9,6 +11,7 @@ export const StyledButton = styled.button`
     display: inline-block;
     color: #fff;
     border: 0;
+    border-radius: 4px;
     text-decoration: none;
     cursor: pointer;
     font-family: inherit;
