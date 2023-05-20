@@ -1,6 +1,6 @@
 import { Component } from "react";                     // для класів
 import PropTypes from 'prop-types';
-import { ToastContainer, toast } from 'react-toastify';
+// import { toast } from 'react-toastify'; //ToastContainer,
 import { StyledHeader, StyledForm, StyledButton, StyledBtnLabel, StyledInput } from "./styled";
 
 
@@ -17,12 +17,12 @@ export class Searchbar extends Component {       // для класів
     handleFormSubmit = (event) => {
         event.preventDefault();
 
-        if(this.state.query.trim() === '') {
-            toast.error('Введіть назву картинки.');
-            return;
-        }
+        // if(this.state.query.trim() === '') {
+        //     toast.error('Введіть назву картинки.');
+        //     return;
+        // }
 
-        this.props.onSubmit(this.state.query);
+        this.props.onSubmit(this.state.query);  //дані передаються в App
         this.setState({ query: '' });  
     }
 

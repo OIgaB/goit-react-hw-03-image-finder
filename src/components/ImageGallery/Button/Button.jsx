@@ -3,8 +3,8 @@
 //коли є якісь завантажені зображення. Якщо масив зображень порожній, кнопка не рендериться.
 
 import { Component } from "react";                     // для класів
-// import PropTypes from 'prop-types';
 import { StyledButton } from "./styled";
+// import PropTypes from 'prop-types';
 
 
 export class Button extends Component {       // для класів
@@ -13,7 +13,16 @@ export class Button extends Component {       // для класів
         // const { handleFormSubmit, handleChange } = this;
         // const { name, number } = this.state;
         return (
-            <StyledButton>Кнопкааа!</StyledButton>
+            <StyledButton type="button" onClick={() => this.props.onClick()}>Load more</StyledButton>
         );
     }
 }
+
+
+// export const LoadMoreButton = ({ onClick }) => {
+//     return (
+//       <LoadButton type="button" onClick={onClick}>
+//         Load more
+//       </LoadButton>
+//     );
+//   };

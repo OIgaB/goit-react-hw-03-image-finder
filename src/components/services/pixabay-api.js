@@ -6,6 +6,7 @@ const BASE_URL = 'https://pixabay.com/api/';
 //'https://pixabay.com/api/?q=cat&page=1&key=your_key&image_type=photo&orientation=horizontal&per_page=12'
 
 const fetchImages = async (query, pageNumber) => {
+    console.log(query);
     try {
         return await axios.get(`${BASE_URL}`, {
             params: {
