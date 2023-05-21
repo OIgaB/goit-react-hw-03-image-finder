@@ -30,11 +30,11 @@ export class Modal extends Component {
     }
 
     render() {
-        const { largeImageURL, query } = this.props;
+        const { largeImageURL, tags } = this.props;
         return createPortal(
             <StyledOverlay onClick={this.handleBackdropClick}>
                 <StyledModal>
-                    <img src={largeImageURL} alt={query} width='900'/>
+                    <img src={largeImageURL} alt={tags} width='900'/>
                 </StyledModal>
             </StyledOverlay>,
             modalRoot,
@@ -44,6 +44,6 @@ export class Modal extends Component {
 
 Modal.propTypes = {
     largeImageURL: PropTypes.string.isRequired,
-    query: PropTypes.string.isRequired,
+    tags: PropTypes.string.isRequired,
     onClose: PropTypes.func.isRequired,
 };

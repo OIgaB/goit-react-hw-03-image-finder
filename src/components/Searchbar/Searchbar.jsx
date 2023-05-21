@@ -21,7 +21,6 @@ export class Searchbar extends Component {       // для класів
             Report.failure('Enter your request.');
             return;
         }
-
         this.props.onSubmit(this.state.query);  //дані передаються в App
         this.setState({ query: '' });  
     }

@@ -1,7 +1,7 @@
 //Компонент елемента списку із зображенням
 
 import { Component } from "react";                     // для класів
-import { Modal } from './Modal/Modal';
+import { Modal } from '../Modal/Modal';
 import PropTypes from 'prop-types';
 import { StyledImageGalleryItem, Image } from "./styled";
 
@@ -23,13 +23,13 @@ export class ImageGalleryItem extends Component {
 
     render() {
         const { handleImgClick, toggleModal } = this;
-        const { webformatURL, largeImageURL, query } = this.props;
+        const { webformatURL, largeImageURL, tags } = this.props;
         return (
             <>
                 <StyledImageGalleryItem onClick={handleImgClick}>
-                    <Image src={webformatURL} alt={query} loading="lazy" />
+                    <Image src={webformatURL} alt={tags} loading="lazy" />
                 </StyledImageGalleryItem>
-                {this.state.showModal && <Modal largeImageURL={largeImageURL} query={query} onClose={toggleModal} />}
+                {this.state.showModal && <Modal largeImageURL={largeImageURL} name={tags} onClose={toggleModal} />}
             </>
         );
     }
@@ -37,5 +37,6 @@ export class ImageGalleryItem extends Component {
 
 ImageGalleryItem.propTypes = {
     webformatURL: PropTypes.string.isRequired,
-    query: PropTypes.string.isRequired,
+    largeImageURL: PropTypes.string.isRequired,
+    tags: PropTypes.string.isRequired,
 };
